@@ -1,0 +1,22 @@
+.tickets {
+  margin-top: 20px;
+  
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style: none;
+    max-width: 502px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-device-width: 320px) and (max-device-width: 768px) {
+  .tickets {
+    &__list {
+      max-width: 502px;
+      margin: 0 auto;
+    }
+  }
+}

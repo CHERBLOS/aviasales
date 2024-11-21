@@ -6,8 +6,11 @@ import { setupStore } from './store/store'
 import App from './components/App'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+
+const store = setupStore()
+
 root.render(
-  <Provider store={setupStore()}>
+  <Provider store={store}>
     <App />
   </Provider>
 )

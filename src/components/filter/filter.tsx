@@ -3,7 +3,7 @@ import { FC } from 'react'
 
 import { uiSlice } from '../../store/reducers/uiSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import updateFilter from '../../functions'
+import { updateFilter } from '../../functions'
 import { filterElems } from '../../types/uiTypes'
 
 import classNames from './filter.module.scss'

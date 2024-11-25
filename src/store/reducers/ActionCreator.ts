@@ -16,18 +16,24 @@ export const fetchSearchId = () => async (dispatch: AppDispatch) => {
   }
 }
 
-export const fetchTickets = (searchId: string) => async (dispatch: AppDispatch) => {
-  try {
-    dispatch(uiSlice.actions.getTickets())
-    const responce = await fetch(`https://aviasales-test-api.kata.academy/tickets?searchId=${searchId}`).then((res) =>
-      res.json()
-    )
-    dispatch(uiSlice.actions.getTicketsSuccess(responce.tickets))
-  } catch (error) {
-    if (error instanceof Error) {
-      dispatch(uiSlice.actions.getTicketsError(error.message))
-    } else {
-      throw error
+export const fetchTickets =
+  (searchId: string, repeat: boolean = false) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      if (!repeat) dispatch(uiSlice.actions.getTickets())
+      const responce = await fetch(`https://aviasales-test-api.kata.academy/tickets?searchId=${searchId}`).then((res) =>
+        res.json()
+      )
+      dispatch(uiSlice.actions.getTicketsSuccess(responce.tickets))
+
+      if (!responce.stop) {
+        dispatch(fetchTickets(searchId, true))
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        dispatch(uiSlice.actions.getTicketsError(error.message))
+      } else {
+        throw error
+      }
     }
   }
-}

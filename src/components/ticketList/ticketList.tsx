@@ -4,6 +4,7 @@ import TicketItem from '../tiketItem'
 import MoreBtn from '../moreBtn'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { fetchTickets } from '../../store/reducers/ActionCreator'
+import { filterTickets } from '../../functions'
 
 import classNames from './ticketList.module.scss'
 
@@ -15,16 +16,29 @@ const TicketList: FC = () => {
     if (state.searchId) dispatch(fetchTickets(state.searchId))
   }, [dispatch, state.searchId])
 
-  const tickets = state.ticketList.length
-    ? state.ticketList
+  const renderTickets = state.ticketList.length
+    ? filterTickets(state.ticketList, state.filter, state.sort)
         .slice(0, state.renderedTickets)
         .map((data) => <TicketItem key={`${data.carrier}${Date.now()}${data.segments[0].date}`} data={data} />)
-    : 'No data'
+    : []
+
+  const ticketList =
+    renderTickets.length && !state.isLoading ? <ul className={classNames['tickets__list']}>{renderTickets}</ul> : null
+
+  const noTickets =
+    !renderTickets.length && !state.isLoading ? (
+      <div className={classNames['tickets__alert']}>По вашим параметрам билетов не нашлось!</div>
+    ) : null
+  const spiner = state.isLoading && <div className={classNames['tickets__spiner']} />
+
+  const moreButton = renderTickets.length && !state.isLoading ? <MoreBtn /> : null
 
   return (
     <div className={classNames.tickets}>
-      <ul className={classNames['tickets__list']}>{tickets}</ul>
-      <MoreBtn />
+      {ticketList}
+      {noTickets}
+      {spiner}
+      {moreButton}
     </div>
   )
 }

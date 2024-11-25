@@ -12,6 +12,11 @@
   letter-spacing: 0.5px;
   text-align: center;
   text-transform: uppercase;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+  }
 }
 
 @media (min-device-width: 320px) and (max-device-width: 768px) {
